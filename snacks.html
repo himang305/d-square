@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snacks — D² Deeva Dessert</title>
+  <meta name="description"
+    content="Savoury favourites made fresh. Sandwiches, pav bhaji, french fries and snacks made to order for a satisfying bite.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Ambient Glow -->
+  <div class="bg-ambient-orb orb-1"></div>
+  <div class="bg-ambient-orb orb-2"></div>
+
+  <!-- ═══ FLOATING NAVBAR ═══ -->
+  <div class="navbar-wrap">
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-badge">D²</div>
+        <div>
+          <div class="nav-logo-text">Deeva Dessert</div>
+          <div class="nav-logo-sub">Pure Veg · Eggless</div>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="cakes.html">Cakes</a>
+        <a href="pastries.html">Pastries</a>
+        <a href="desserts.html">Desserts</a>
+        <a href="snacks.html" class="active">Snacks</a>
+      </div>
+      <div class="nav-right-actions">
+        <a href="tel:9116013272" class="nav-btn-call">📞 Call to Order</a>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="cakes.html">Cakes</a>
+    <a href="pastries.html">Pastries</a>
+    <a href="desserts.html">Desserts</a>
+    <a href="snacks.html" class="active">Snacks</a>
+    <a href="tel:9116013272" style="color: var(--accent); font-weight: 700;">📞 Call: 9116013272</a>
+  </div>
+
+  <!-- ═══ PAGE HERO ═══ -->
+  <div class="container">
+    <div class="page-hero reveal">
+      <span class="label-tag">🍟 Fresh &amp; Savoury</span>
+      <h1>Savoury favourites, made fresh.</h1>
+      <p>Gourmet grilled sandwiches, buttery Mumbai-style pav bhaji, seasoned fries and pizzas made hot to order.</p>
+    </div>
+  </div>
+
+  <!-- ═══ PRODUCTS GRID WITH REAL PHOTOGRAPHY ═══ -->
+  <section class="section-padding" style="padding-top: 0;">
+    <div class="container">
+      <div class="product-grid">
+
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=600&q=80"
+              alt="Pav Bhaji" class="product-card-photo">
+            <span class="product-badge">House Special</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Pav Bhaji</div>
+            <div class="product-card-desc">Toasted butter pav served with spicy mashed vegetable bhaji, lemon &amp;
+              onion.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹140 / plate</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80"
+              alt="Grilled Veg Sandwich" class="product-card-photo">
+            <span class="product-badge">Grilled</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Grilled Veg Sandwich</div>
+            <div class="product-card-desc">Crispy golden bread filled with crunchy vegetables, cheese and signature mint
+              spread.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹120</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1554433607-66b5efe9d304?auto=format&fit=crop&w=600&q=80"
+              alt="Paneer Tikka Sandwich" class="product-card-photo">
+            <span class="product-badge">Cheesy</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Paneer Tikka Sandwich</div>
+            <div class="product-card-desc">Tandoori spiced soft paneer cubes, fresh capsicum and molten mozzarella.
+            </div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹160</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-4">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=600&q=80"
+              alt="Classic French Fries" class="product-card-photo">
+            <span class="product-badge">Classic</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Classic French Fries</div>
+            <div class="product-card-desc">Golden crisp potato finger fries tossed in sea salt, served with dip.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹100</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=600&q=80"
+              alt="Peri Peri Fries" class="product-card-photo">
+            <span class="product-badge">Spicy</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Peri Peri Fries</div>
+            <div class="product-card-desc">Extra crispy golden fries dusted generously with zesty peri-peri seasoning.
+            </div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹130</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?auto=format&fit=crop&w=600&q=80"
+              alt="Cheese Garlic Bread" class="product-card-photo">
+            <span class="product-badge">Garlic</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Cheese Garlic Bread</div>
+            <div class="product-card-desc">Thick toasted baguette with aromatic garlic butter and gooey melted cheese.
+            </div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹140</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
+              alt="Veg Burger" class="product-card-photo">
+            <span class="product-badge">Burger</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Veg Burger</div>
+            <div class="product-card-desc">Crispy seasoned vegetable patty, fresh lettuce, tomato &amp; cream mayo
+              sauce.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">Call to order</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-4">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80"
+              alt="Paneer Burger" class="product-card-photo">
+            <span class="product-badge">Burger</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Paneer Burger</div>
+            <div class="product-card-desc">Thick spiced paneer steak patty with cheddar slice and house special
+              dressing.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">Call to order</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80"
+              alt="Margherita Pizza" class="product-card-photo">
+            <span class="product-badge">Pizza</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Margherita Pizza</div>
+            <div class="product-card-desc">Classic Italian thin crust loaded with rich tomato sauce, basil &amp;
+              mozzarella.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹220</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80"
+              alt="Veg Loaded Pizza" class="product-card-photo">
+            <span class="product-badge">Loaded</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Veg Loaded Pizza</div>
+            <div class="product-card-desc">Topped with bell peppers, olives, corn, onions, mushrooms &amp; melted
+              cheese.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹280</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80"
+              alt="Spring Rolls" class="product-card-photo">
+            <span class="product-badge">Crispy</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Spring Rolls</div>
+            <div class="product-card-desc">Crispy golden wrappers filled with sautéed noodles, cabbage and vegetables.
+            </div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹130 / plate</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-4">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80"
+              alt="Chilli Potato" class="product-card-photo">
+            <span class="product-badge">Indo-Chinese</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Chilli Potato</div>
+            <div class="product-card-desc">Crisp-fried finger potatoes coated in fiery garlic chilli soy glaze &amp;
+              sesame seeds.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹160 / plate</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA STRIP ═══ -->
+  <div class="container">
+    <div class="cta-strip reveal">
+      <div class="cta-strip-text">
+        <h3>Hungry for fresh hot snacks?</h3>
+        <p>Everything is prepared live to order. Give us a call or visit our store in Dholpur!</p>
+      </div>
+      <a href="tel:9116013272" class="btn btn-primary">📞 Call: 9116013272</a>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-badge">D²</div>
+            <div>
+              <div class="footer-logo-name">Deeva Dessert</div>
+            </div>
+          </div>
+          <p class="footer-tagline">100% Pure vegetarian, eggless sweets, premium cakes and savoury snacks made fresh
+            every single day in Dholpur, Rajasthan.</p>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact &amp; Location</h4>
+          <div class="footer-contact-list">
+            <div class="footer-contact-item">
+              <span>📞</span>
+              <a href="tel:9116013272">9116013272</a>
+            </div>
+            <div class="footer-contact-item">
+              <span>✉️</span>
+              <a href="mailto:jyotijan90chaudhary@gmail.com">jyotijan90chaudhary@gmail.com</a>
+            </div>
+            <div class="footer-contact-item">
+              <span>📍</span>
+              <span>Saipau Rd, Ramkunj Colony, Guru Mail Colony, Dholpur, Rajasthan 328001</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 D Square [Deeva Dessert]. 100% Pure Veg &amp; Eggless.</p>
+        <div class="footer-nav-links">
+          <a href="index.html">Home</a>
+          <a href="cakes.html">Cakes</a>
+          <a href="pastries.html">Pastries</a>
+          <a href="desserts.html">Desserts</a>
+          <a href="snacks.html">Snacks</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

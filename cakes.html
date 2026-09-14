@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cakes — D² Deeva Dessert</title>
+  <meta name="description"
+    content="Choose your favourite cake flavour and size. All cakes are pure vegetarian and eggless. Custom orders welcome.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Ambient Glow -->
+  <div class="bg-ambient-orb orb-1"></div>
+  <div class="bg-ambient-orb orb-2"></div>
+
+  <!-- ═══ FLOATING NAVBAR ═══ -->
+  <div class="navbar-wrap">
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-badge">D²</div>
+        <div>
+          <div class="nav-logo-text">Deeva Dessert</div>
+          <div class="nav-logo-sub">Pure Veg · Eggless</div>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="cakes.html" class="active">Cakes</a>
+        <a href="pastries.html">Pastries</a>
+        <a href="desserts.html">Desserts</a>
+        <a href="snacks.html">Snacks</a>
+      </div>
+      <div class="nav-right-actions">
+        <a href="tel:9116013272" class="nav-btn-call">📞 Call to Order</a>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="cakes.html" class="active">Cakes</a>
+    <a href="pastries.html">Pastries</a>
+    <a href="desserts.html">Desserts</a>
+    <a href="snacks.html">Snacks</a>
+    <a href="tel:9116013272" style="color: var(--accent); font-weight: 700;">📞 Call: 9116013272</a>
+  </div>
+
+  <!-- ═══ PAGE HERO ═══ -->
+  <div class="container">
+    <div class="page-hero reveal">
+      <span class="label-tag">🎂 Signature Cakes</span>
+      <h1>Cakes made for the moment.</h1>
+      <p>Choose your favourite flavour and size. All cakes are 100% pure vegetarian and eggless, baked fresh with
+        premium ingredients.</p>
+    </div>
+
+    <!-- Starting Prices 3D Cards -->
+    <div class="pricing-row reveal">
+      <div class="pricing-card">
+        <div class="size">0.5 KG</div>
+        <div class="from">Starting from</div>
+        <div class="price-value">₹450</div>
+      </div>
+      <div class="pricing-card" style="border-color: rgba(183, 101, 43, 0.4); box-shadow: var(--shadow-md);">
+        <div class="size" style="color: var(--accent);">1 KG · Most Popular</div>
+        <div class="from">Starting from</div>
+        <div class="price-value">₹850</div>
+      </div>
+      <div class="pricing-card">
+        <div class="size">2 KG</div>
+        <div class="from">Starting from</div>
+        <div class="price-value">₹1,600</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRODUCTS GRID WITH REAL PHOTOGRAPHY ═══ -->
+  <section class="section-padding" style="padding-top: 0;">
+    <div class="container">
+      <div class="product-grid">
+
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=600&q=80"
+              alt="Classic Tea Cake" class="product-card-photo">
+            <span class="product-badge">Loaf</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Classic Tea Cake</div>
+            <div class="product-card-desc">Soft vanilla loaf cake, perfectly matched with tea.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹280 / loaf</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1586788680434-30d324b2d46f?auto=format&fit=crop&w=600&q=80"
+              alt="Red Velvet Cake" class="product-card-photo">
+            <span class="product-badge">Bestseller</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Red Velvet Cake</div>
+            <div class="product-card-desc">Velvety cocoa sponge with cream cheese-style frosting.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹550 (0.5kg) · ₹1,000 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=80"
+              alt="Fresh Fruit Cake" class="product-card-photo">
+            <span class="product-badge">Seasonal</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Fresh Fruit Cake</div>
+            <div class="product-card-desc">Vanilla sponge layered with seasonal fresh fruit &amp; whipped cream.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹600 (0.5kg) · ₹1,100 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-4">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80"
+              alt="Chocolate Truffle Cake" class="product-card-photo">
+            <span class="product-badge">Chocolate</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Chocolate Truffle Cake</div>
+            <div class="product-card-desc">Rich chocolate sponge layered with decadent silky ganache.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">Call to order</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80"
+              alt="Butterscotch Cake" class="product-card-photo">
+            <span class="product-badge">Crunch</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Butterscotch Cake</div>
+            <div class="product-card-desc">Caramel crunch praline and rich butterscotch cream.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹500 (0.5kg) · ₹900 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=600&q=80"
+              alt="Black Forest Cake" class="product-card-photo">
+            <span class="product-badge">Classic</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Black Forest Cake</div>
+            <div class="product-card-desc">Chocolate sponge, tart cherries, chocolate flakes and whipped cream.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">Call to order</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=600&q=80"
+              alt="Pineapple Cake" class="product-card-photo">
+            <span class="product-badge">Tropical</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Pineapple Cake</div>
+            <div class="product-card-desc">Light vanilla sponge filled with juicy pineapple compote.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹450 (0.5kg) · ₹850 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-4">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80"
+              alt="Rasmalai Cake" class="product-card-photo">
+            <span class="product-badge">Special</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Rasmalai Cake</div>
+            <div class="product-card-desc">Festive fusion milk cake inspired by authentic rasmalai &amp; pistachios.
+            </div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹650 (0.5kg) · ₹1,200 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=600&q=80"
+              alt="Blueberry Cake" class="product-card-photo">
+            <span class="product-badge">Berry</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Blueberry Cake</div>
+            <div class="product-card-desc">Creamy blueberry compote and light vanilla sponge.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">Call to order</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?auto=format&fit=crop&w=600&q=80"
+              alt="KitKat Chocolate Cake" class="product-card-photo">
+            <span class="product-badge">Crunch</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">KitKat Chocolate Cake</div>
+            <div class="product-card-desc">Chocolate cake loaded with crunchy wafer bars and ganache.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹700 (0.5kg) · ₹1,300 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=600&q=80"
+              alt="Vanilla Celebration Cake" class="product-card-photo">
+            <span class="product-badge">Celebration</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Vanilla Celebration Cake</div>
+            <div class="product-card-desc">Classic vanilla cream cake decorated for birthdays &amp; celebrations.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">Call to order</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-4">
+          <div class="product-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80"
+              alt="Coffee Walnut Cake" class="product-card-photo">
+            <span class="product-badge">Coffee</span>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Coffee Walnut Cake</div>
+            <div class="product-card-desc">Espresso-infused sponge with toasted crunchy walnut notes.</div>
+            <div class="product-card-footer">
+              <div class="product-card-price">₹580 (0.5kg) · ₹1,050 (1kg)</div>
+              <a href="tel:9116013272" class="product-order-mini" title="Order">📞</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA STRIP ═══ -->
+  <div class="container">
+    <div class="cta-strip reveal">
+      <div class="cta-strip-text">
+        <h3>Ready to order your custom cake?</h3>
+        <p>Custom sizes, photo prints, flavours and designs available. Call us to place your order.</p>
+      </div>
+      <a href="tel:9116013272" class="btn btn-primary">📞 Call: 9116013272</a>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-badge">D²</div>
+            <div>
+              <div class="footer-logo-name">Deeva Dessert</div>
+            </div>
+          </div>
+          <p class="footer-tagline">100% Pure vegetarian, eggless sweets, premium cakes and savoury snacks made fresh
+            every single day in Dholpur, Rajasthan.</p>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact &amp; Location</h4>
+          <div class="footer-contact-list">
+            <div class="footer-contact-item">
+              <span>📞</span>
+              <a href="tel:9116013272">9116013272</a>
+            </div>
+            <div class="footer-contact-item">
+              <span>✉️</span>
+              <a href="mailto:jyotijan90chaudhary@gmail.com">jyotijan90chaudhary@gmail.com</a>
+            </div>
+            <div class="footer-contact-item">
+              <span>📍</span>
+              <span>Saipau Rd, Ramkunj Colony, Guru Mail Colony, Dholpur, Rajasthan 328001</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 D Square [Deeva Dessert]. 100% Pure Veg &amp; Eggless.</p>
+        <div class="footer-nav-links">
+          <a href="index.html">Home</a>
+          <a href="cakes.html">Cakes</a>
+          <a href="pastries.html">Pastries</a>
+          <a href="desserts.html">Desserts</a>
+          <a href="snacks.html">Snacks</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
