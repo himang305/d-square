@@ -1758,8 +1758,16 @@ img { display: block; max-width: 100%; }
   margin-bottom: 40px;
 }
 
+.menu-pamphlet-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
 @media (max-width: 992px) {
-  .menu-pamphlet-grid {
+  .menu-pamphlet-grid,
+  .menu-pamphlet-grid-2 {
     grid-template-columns: 1fr;
   }
 }
@@ -1826,12 +1834,50 @@ img { display: block; max-width: 100%; }
 
 .menu-table-wrap {
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .menu-price-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
+}
+
+@media (max-width: 600px) {
+  .menu-category-body {
+    padding: 12px 8px;
+  }
+
+  .menu-price-table {
+    font-size: 12px;
+  }
+
+  .menu-price-table th {
+    padding: 4px 2px 8px;
+    font-size: 11px;
+  }
+
+  .menu-price-table td {
+    padding: 6px 2px;
+    font-size: 11.5px;
+  }
+
+  .menu-item-cell {
+    gap: 4px;
+  }
+
+  .menu-item-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+  }
+
+  .table-add-cart-btn {
+    padding: 2px 4px;
+    font-size: 9.5px;
+    margin-left: 2px;
+  }
 }
 
 .menu-price-table th {
