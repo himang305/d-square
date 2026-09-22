@@ -483,3 +483,475 @@ function initThreeParticles() {
 
   animate();
 }
+
+/* =========================================================
+   SHOPPING CART, CHECKOUT & WHATSAPP ORDER ENGINE
+   ========================================================= */
+const CartEngine = (function() {
+  let cart = [];
+
+  // Load saved cart from localStorage
+  function loadCart() {
+    try {
+      const saved = localStorage.getItem('deeva_cart');
+      if (saved) cart = JSON.parse(saved);
+    } catch(e) {
+      cart = [];
+    }
+  }
+
+  function saveCart() {
+    try {
+      localStorage.setItem('deeva_cart', JSON.stringify(cart));
+    } catch(e) {}
+    updateUI();
+  }
+
+  function addItem(item) {
+    const existing = cart.find(i => i.id === item.id && i.variant === item.variant);
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({
+        id: item.id || item.name.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+        name: item.name,
+        price: parseFloat(item.price),
+        img: item.img || 'favicon.jpg',
+        variant: item.variant || '',
+        qty: 1
+      });
+    }
+    saveCart();
+    showToast(`Added "${item.name}" to cart! 🛒`);
+    bumpBadge();
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    saveCart();
+  }
+
+  function updateQty(index, change) {
+    if (cart[index]) {
+      cart[index].qty += change;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      saveCart();
+    }
+  }
+
+  function getTotal() {
+    return cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+  }
+
+  function getItemCount() {
+    return cart.reduce((sum, i) => sum + i.qty, 0);
+  }
+
+  function bumpBadge() {
+    const badges = document.querySelectorAll('.cart-badge');
+    badges.forEach(badge => {
+      badge.classList.remove('bump');
+      void badge.offsetWidth;
+      badge.classList.add('bump');
+    });
+  }
+
+  function showToast(msg) {
+    let container = document.querySelector('.cart-toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'cart-toast-container';
+      document.body.appendChild(container);
+    }
+    const toast = document.createElement('div');
+    toast.className = 'cart-toast';
+    toast.innerHTML = `<span>✨</span> <span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
+
+  // Inject Cart Elements (Drawer & Modal) into DOM
+  function injectDOM() {
+    // 1. Inject Cart Icon into navbar right actions if not already present
+    const navActions = document.querySelector('.nav-right-actions');
+    if (navActions && !document.querySelector('.nav-btn-cart')) {
+      const cartBtn = document.createElement('button');
+      cartBtn.className = 'nav-btn-cart';
+      cartBtn.setAttribute('aria-label', 'Shopping Cart');
+      cartBtn.type = 'button';
+      cartBtn.innerHTML = `🛒 Cart <span class="cart-badge">0</span>`;
+      cartBtn.addEventListener('click', openDrawer);
+      navActions.insertBefore(cartBtn, navActions.firstChild);
+    }
+
+    // 2. Inject Cart Drawer Overlay
+    if (!document.querySelector('.cart-drawer-overlay')) {
+      const drawerHTML = `
+        <div class="cart-drawer-overlay" id="cartOverlay">
+          <div class="cart-drawer">
+            <div class="cart-header">
+              <h3>🛒 Your Sweet Cart</h3>
+              <button class="cart-close-btn" id="closeCartBtn">&times;</button>
+            </div>
+            <div class="cart-body" id="cartBody">
+              <!-- Rendered items or empty state -->
+            </div>
+            <div class="cart-footer">
+              <div class="cart-summary-row">
+                <span class="cart-summary-label">Total Amount:</span>
+                <span class="cart-total-val" id="cartTotalVal">₹0</span>
+              </div>
+              <button class="btn-checkout" id="startCheckoutBtn">
+                Proceed to Checkout →
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', drawerHTML);
+
+      document.getElementById('closeCartBtn').addEventListener('click', closeDrawer);
+      document.getElementById('cartOverlay').addEventListener('click', (e) => {
+        if (e.target.id === 'cartOverlay') closeDrawer();
+      });
+      document.getElementById('startCheckoutBtn').addEventListener('click', () => {
+        if (cart.length === 0) {
+          showToast('Please add items to your cart first! 🎂');
+          return;
+        }
+        closeDrawer();
+        openCheckoutModal();
+      });
+    }
+
+    // 3. Inject Checkout Modal
+    if (!document.querySelector('.checkout-modal-overlay')) {
+      const checkoutHTML = `
+        <div class="checkout-modal-overlay" id="checkoutOverlay">
+          <div class="checkout-modal">
+            <div class="checkout-header">
+              <h3>📦 Complete Your Order</h3>
+              <button class="cart-close-btn" id="closeCheckoutBtn">&times;</button>
+            </div>
+            <div class="checkout-body">
+              <form id="checkoutForm">
+                <div class="form-group">
+                  <label for="custName">Your Full Name *</label>
+                  <input type="text" id="custName" class="form-input" placeholder="e.g. Jyoti Chaudhary" required>
+                </div>
+                <div class="form-group">
+                  <label for="custPhone">Phone Number *</label>
+                  <input type="tel" id="custPhone" class="form-input" placeholder="e.g. 9876543210" required>
+                </div>
+                <div class="form-group">
+                  <label for="custAddress">Delivery Address / Landmark (Dholpur) *</label>
+                  <textarea id="custAddress" class="form-input" rows="2" placeholder="Street, Colony, Landmark or Store Pick up" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="custNotes">Special Instructions / Cake Message (Optional)</label>
+                  <input type="text" id="custNotes" class="form-input" placeholder="e.g. Write 'Happy Birthday' on cake / Less spicy">
+                </div>
+
+                <div class="payment-section">
+                  <div class="payment-title">💳 Payment Option</div>
+                  <div class="payment-options">
+                    <button type="button" class="payment-option-btn selected" data-mode="UPI / QR Code">
+                      📲 UPI / QR Code
+                    </button>
+                    <button type="button" class="payment-option-btn" data-mode="Cash on Delivery / Pickup">
+                      💵 Cash / Store Pickup
+                    </button>
+                  </div>
+
+                  <div class="qr-code-card" id="qrContainer">
+                    <div style="font-size: 12px; font-weight: 700; color: #3b2017;">Scan QR Code to Pay via GPay / PhonePe / Paytm</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9116013272@upi%26pn=DeevaDessert" alt="Deeva Dessert Payment QR Code">
+                    <div><span class="upi-id-badge">UPI ID: 9116013272@upi</span></div>
+                    <div style="font-size: 11px; color: #71717a; margin-top: 6px;">Pay total &amp; click below to send order on WhatsApp</div>
+                  </div>
+                </div>
+
+                <div class="cart-summary-row" style="margin-top: 20px;">
+                  <span class="cart-summary-label">Total Payable:</span>
+                  <span class="cart-total-val" id="checkoutTotalVal">₹0</span>
+                </div>
+
+                <button type="submit" class="btn-checkout" style="margin-top: 10px;">
+                  💬 Place Order on WhatsApp
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', checkoutHTML);
+
+      document.getElementById('closeCheckoutBtn').addEventListener('click', closeCheckoutModal);
+      document.getElementById('checkoutOverlay').addEventListener('click', (e) => {
+        if (e.target.id === 'checkoutOverlay') closeCheckoutModal();
+      });
+
+      // Payment option toggle
+      const pBtns = document.querySelectorAll('.payment-option-btn');
+      pBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          pBtns.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          const qr = document.getElementById('qrContainer');
+          if (btn.dataset.mode.includes('Cash')) {
+            qr.style.display = 'none';
+          } else {
+            qr.style.display = 'block';
+          }
+        });
+      });
+
+      // Submit Form → WhatsApp Link
+      document.getElementById('checkoutForm').addEventListener('submit', handleCheckoutSubmit);
+    }
+  }
+
+  function openDrawer() {
+    injectDOM();
+    updateUI();
+    document.getElementById('cartOverlay')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    document.getElementById('cartOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function openCheckoutModal() {
+    const total = getTotal();
+    const checkoutVal = document.getElementById('checkoutTotalVal');
+    if (checkoutVal) checkoutVal.innerText = `₹${total}`;
+    document.getElementById('checkoutOverlay')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCheckoutModal() {
+    document.getElementById('checkoutOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function updateUI() {
+    const badges = document.querySelectorAll('.cart-badge');
+    const count = getItemCount();
+    badges.forEach(b => b.innerText = count);
+
+    const cartBody = document.getElementById('cartBody');
+    const cartTotalVal = document.getElementById('cartTotalVal');
+    if (!cartBody) return;
+
+    if (cart.length === 0) {
+      cartBody.innerHTML = `
+        <div class="cart-empty">
+          <span class="cart-empty-icon">🍰</span>
+          <p>Your cart is empty!</p>
+          <span style="font-size: 13px; color: var(--text-muted);">Add delicious cakes, pastries &amp; snacks to get started.</span>
+        </div>
+      `;
+      if (cartTotalVal) cartTotalVal.innerText = '₹0';
+      return;
+    }
+
+    let itemsHTML = '<div class="cart-items-list">';
+    cart.forEach((item, index) => {
+      itemsHTML += `
+        <div class="cart-item">
+          <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.src='favicon.jpg'">
+          <div class="cart-item-info">
+            <div class="cart-item-title">${item.name} ${item.variant ? `(${item.variant})` : ''}</div>
+            <div class="cart-item-price">₹${item.price} &times; ${item.qty} = ₹${item.price * item.qty}</div>
+          </div>
+          <div class="cart-item-actions">
+            <button class="cart-qty-btn" type="button" onclick="CartEngine.updateQty(${index}, -1)">-</button>
+            <span class="cart-qty-num">${item.qty}</span>
+            <button class="cart-qty-btn" type="button" onclick="CartEngine.updateQty(${index}, 1)">+</button>
+          </div>
+          <button class="cart-remove-btn" type="button" onclick="CartEngine.removeItem(${index})" title="Remove">&times;</button>
+        </div>
+      `;
+    });
+    itemsHTML += '</div>';
+
+    cartBody.innerHTML = itemsHTML;
+    if (cartTotalVal) cartTotalVal.innerText = `₹${getTotal()}`;
+  }
+
+  function handleCheckoutSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const address = document.getElementById('custAddress').value.trim();
+    const notes = document.getElementById('custNotes').value.trim();
+
+    const selectedPayBtn = document.querySelector('.payment-option-btn.selected');
+    const payMode = selectedPayBtn ? selectedPayBtn.dataset.mode : 'UPI / QR Code';
+
+    if (!name || !phone || !address) {
+      alert('Please fill in all required contact details.');
+      return;
+    }
+
+    const total = getTotal();
+
+    let msg = `🍰 *NEW ORDER - DEEVA DESSERT* 🍰\n`;
+    msg += `--------------------------------\n`;
+    msg += `👤 *Customer Name:* ${name}\n`;
+    msg += `📞 *Phone Number:* ${phone}\n`;
+    msg += `📍 *Delivery Address:* ${address}\n`;
+    if (notes) {
+      msg += `📝 *Instructions / Message:* ${notes}\n`;
+    }
+    msg += `--------------------------------\n`;
+    msg += `🛒 *ORDER ITEMS:*\n`;
+
+    cart.forEach((item, idx) => {
+      const variantText = item.variant ? ` (${item.variant})` : '';
+      msg += `${idx + 1}. *${item.name}${variantText}* x ${item.qty} = ₹${item.price * item.qty}\n`;
+    });
+
+    msg += `--------------------------------\n`;
+    msg += `💰 *TOTAL PAYABLE:* ₹${total}\n`;
+    msg += `💳 *PAYMENT METHOD:* ${payMode}\n`;
+    msg += `--------------------------------\n`;
+    msg += `Thank you! Please confirm and process my order.`;
+
+    const waUrl = `https://wa.me/919116013272?text=${encodeURIComponent(msg)}`;
+
+    cart = [];
+    saveCart();
+    closeCheckoutModal();
+
+    window.open(waUrl, '_blank');
+  }
+
+  function autoBindProductCards() {
+    // 1. Bind to .product-card elements
+    document.querySelectorAll('.product-card').forEach(card => {
+      const footer = card.querySelector('.product-card-footer');
+      if (footer && !card.querySelector('.btn-add-cart')) {
+        const nameElem = card.querySelector('.product-card-name');
+        const priceElem = card.querySelector('.product-card-price');
+        const imgElem = card.querySelector('.product-card-photo');
+
+        if (nameElem && priceElem) {
+          const name = nameElem.innerText.trim();
+          const priceMatch = priceElem.innerText.match(/\d+/);
+          const price = priceMatch ? priceMatch[0] : 0;
+          const img = imgElem ? imgElem.getAttribute('src') : 'favicon.jpg';
+
+          const addBtn = document.createElement('button');
+          addBtn.className = 'btn-add-cart';
+          addBtn.innerHTML = `🛒 Add`;
+          addBtn.type = 'button';
+          addBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            addItem({ name, price, img });
+          });
+          footer.appendChild(addBtn);
+        }
+      }
+    });
+
+    // 2. Bind to .teatime-card in cakes.html
+    document.querySelectorAll('.teatime-card').forEach(card => {
+      if (!card.querySelector('.btn-add-cart')) {
+        const titleElem = card.querySelector('h4');
+        const priceElem = card.querySelector('.price-pill');
+        const imgElem = card.querySelector('img');
+
+        if (titleElem && priceElem) {
+          const name = titleElem.innerText.trim();
+          const priceMatch = priceElem.innerText.match(/\d+/);
+          const price = priceMatch ? priceMatch[0] : 0;
+          const img = imgElem ? imgElem.getAttribute('src') : 'favicon.jpg';
+
+          const btnContainer = document.createElement('div');
+          btnContainer.style.marginTop = '10px';
+          btnContainer.style.textAlign = 'center';
+
+          const addBtn = document.createElement('button');
+          addBtn.className = 'btn-add-cart';
+          addBtn.style.width = '100%';
+          addBtn.innerHTML = `🛒 Add to Cart (₹${price})`;
+          addBtn.type = 'button';
+          addBtn.addEventListener('click', () => {
+            addItem({ name, price, img, variant: '1 Kg' });
+          });
+          btnContainer.appendChild(addBtn);
+          card.appendChild(btnContainer);
+        }
+      }
+    });
+
+    // 3. Bind to .menu-price-table rows in cakes.html
+    document.querySelectorAll('.menu-price-table tr').forEach(row => {
+      const tds = row.querySelectorAll('td');
+      if (tds.length >= 2 && !row.querySelector('.table-add-cart-btn')) {
+        const itemName = tds[0].innerText.replace(/^[•\s]+/, '').trim();
+        const headers = row.closest('table')?.querySelectorAll('th');
+
+        if (headers && headers.length >= 2 && itemName && !itemName.toLowerCase().includes('customize')) {
+          for (let i = 1; i < tds.length; i++) {
+            const priceText = tds[i].innerText.trim();
+            const priceMatch = priceText.match(/\d+/);
+            if (priceMatch) {
+              const price = priceMatch[0];
+              const variant = headers[i] ? headers[i].innerText.trim() : '';
+
+              const addBtn = document.createElement('button');
+              addBtn.className = 'table-add-cart-btn';
+              addBtn.innerHTML = `+🛒`;
+              addBtn.title = `Add ${itemName} (${variant}) - ₹${price}`;
+              addBtn.type = 'button';
+              addBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const cellImg = tds[0].querySelector('img')?.getAttribute('src') || 'favicon.jpg';
+                addItem({ name: itemName, price, variant, img: cellImg });
+              });
+              tds[i].appendChild(addBtn);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function init() {
+    loadCart();
+    injectDOM();
+    updateUI();
+    autoBindProductCards();
+  }
+
+  return {
+    init,
+    addItem,
+    removeItem,
+    updateQty,
+    openDrawer,
+    closeDrawer,
+    openCheckoutModal,
+    closeCheckoutModal
+  };
+})();
+
+// Expose CartEngine globally
+window.CartEngine = CartEngine;
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => CartEngine.init());
+} else {
+  CartEngine.init();
+}
+
