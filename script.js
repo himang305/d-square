@@ -679,8 +679,8 @@ const CartEngine = (function() {
 
                   <div class="qr-code-card" id="qrContainer">
                     <div style="font-size: 12px; font-weight: 700; color: #3b2017;">Scan QR Code to Pay via GPay / PhonePe / Paytm</div>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9116013272@upi%26pn=DeevaDessert" alt="Deeva Dessert Payment QR Code">
-                    <div><span class="upi-id-badge">UPI ID: 9116013272@upi</span></div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=11jyotsna07@okicici%26pn=DeevaDessert" alt="Deeva Dessert Payment QR Code">
+                    <div><span class="upi-id-badge">UPI ID: 11jyotsna07@okicici</span></div>
                     <div style="font-size: 11.5px; font-weight: 700; color: #2b6736; background: #eef7ee; padding: 6px 10px; border-radius: 8px; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                       📸 <span>Please share your payment screenshot in WhatsApp chat after sending order</span>
                     </div>
