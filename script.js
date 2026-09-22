@@ -508,7 +508,9 @@ const CartEngine = (function() {
   }
 
   function addItem(item) {
-    const existing = cart.find(i => i.id === item.id && i.variant === item.variant);
+    const minOrder = item.minQty || 1;
+    const initialAdd = item.initialQty || minOrder;
+    const existing = cart.find(i => i.name === item.name && i.variant === item.variant);
     if (existing) {
       existing.qty += 1;
     } else {
@@ -518,11 +520,12 @@ const CartEngine = (function() {
         price: parseFloat(item.price),
         img: item.img || 'favicon.jpg',
         variant: item.variant || '',
-        qty: 1
+        minQty: minOrder,
+        qty: initialAdd
       });
     }
     saveCart();
-    showToast(`Added "${item.name}" to cart! 🛒`);
+    showToast(`Added "${item.name}" (${existing ? existing.qty : initialAdd} pcs) to cart! 🛒`);
     bumpBadge();
   }
 
@@ -533,9 +536,14 @@ const CartEngine = (function() {
 
   function updateQty(index, change) {
     if (cart[index]) {
-      cart[index].qty += change;
-      if (cart[index].qty <= 0) {
+      const item = cart[index];
+      const minOrder = item.minQty || 1;
+      const newQty = item.qty + change;
+      if (newQty < minOrder) {
         cart.splice(index, 1);
+        showToast(`Removed "${item.name}" from cart`);
+      } else {
+        item.qty = newQty;
       }
       saveCart();
     }
@@ -673,7 +681,9 @@ const CartEngine = (function() {
                     <div style="font-size: 12px; font-weight: 700; color: #3b2017;">Scan QR Code to Pay via GPay / PhonePe / Paytm</div>
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9116013272@upi%26pn=DeevaDessert" alt="Deeva Dessert Payment QR Code">
                     <div><span class="upi-id-badge">UPI ID: 9116013272@upi</span></div>
-                    <div style="font-size: 11px; color: #71717a; margin-top: 6px;">Pay total &amp; click below to send order on WhatsApp</div>
+                    <div style="font-size: 11.5px; font-weight: 700; color: #2b6736; background: #eef7ee; padding: 6px 10px; border-radius: 8px; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                      📸 <span>Please share your payment screenshot in WhatsApp chat after sending order</span>
+                    </div>
                   </div>
                 </div>
 
@@ -823,6 +833,11 @@ const CartEngine = (function() {
     msg += `--------------------------------\n`;
     msg += `💰 *TOTAL PAYABLE:* ₹${total}\n`;
     msg += `💳 *PAYMENT METHOD:* ${payMode}\n`;
+
+    if (!payMode.includes('Cash')) {
+      msg += `📸 *Note:* I will attach my payment receipt / screenshot in this chat below.\n`;
+    }
+
     msg += `--------------------------------\n`;
     msg += `Thank you! Please confirm and process my order.`;
 
@@ -899,25 +914,48 @@ const CartEngine = (function() {
       const tds = row.querySelectorAll('td');
       if (tds.length >= 2 && !row.querySelector('.table-add-cart-btn')) {
         const itemName = tds[0].innerText.replace(/^[•\s]+/, '').trim();
-        const headers = row.closest('table')?.querySelectorAll('th');
+        const thElems = Array.from(row.closest('table')?.querySelectorAll('th') || []);
+        const headers = thElems.map(th => th.innerText.trim());
+        const headersLower = headers.map(h => h.toLowerCase());
 
-        if (headers && headers.length >= 2 && itemName && !itemName.toLowerCase().includes('customize')) {
+        if (headers.length >= 2 && itemName && !itemName.toLowerCase().includes('customize')) {
+          // Check if table has a "Min. Order" column
+          let minOrderQty = 1;
+          const minColIdx = headersLower.findIndex(h => h.includes('min'));
+          if (minColIdx !== -1 && tds[minColIdx]) {
+            const minMatch = tds[minColIdx].innerText.match(/\d+/);
+            if (minMatch) minOrderQty = parseInt(minMatch[0], 10);
+          }
+
           for (let i = 1; i < tds.length; i++) {
+            const headerText = headersLower[i] || '';
+            // Skip non-price columns like "Min. Order"
+            if (headerText.includes('min') || headerText.includes('order')) continue;
+
             const priceText = tds[i].innerText.trim();
             const priceMatch = priceText.match(/\d+/);
             if (priceMatch) {
               const price = priceMatch[0];
-              const variant = headers[i] ? headers[i].innerText.trim() : '';
+              const variant = (headers[i] && !headersLower[i].includes('price'))
+                ? headers[i]
+                : (minOrderQty > 1 ? `Min. ${minOrderQty} pcs` : '');
 
               const addBtn = document.createElement('button');
               addBtn.className = 'table-add-cart-btn';
               addBtn.innerHTML = `+🛒`;
-              addBtn.title = `Add ${itemName} (${variant}) - ₹${price}`;
+              addBtn.title = `Add ${itemName} - ₹${price}`;
               addBtn.type = 'button';
               addBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const cellImg = tds[0].querySelector('img')?.getAttribute('src') || 'favicon.jpg';
-                addItem({ name: itemName, price, variant, img: cellImg });
+                addItem({
+                  name: itemName,
+                  price,
+                  variant,
+                  img: cellImg,
+                  minQty: minOrderQty,
+                  initialQty: minOrderQty
+                });
               });
               tds[i].appendChild(addBtn);
             }
